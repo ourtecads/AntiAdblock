@@ -48,12 +48,22 @@ window.addEventListener('load', function() {
     blocked = true; // Jika elemen dengan ID 'lipfoJyjxTvn' tidak ada, set blocked menjadi true
   }
 
-  if (blocked) {
-    document.querySelector('html').innerHTML = htmls; // Jika blocked adalah true, set innerHTML dari html menjadi htmls
-    if (typeof gtag === "function") {
-      gtag('event', 'ads_blocked'); // Kirim event 'ads_blocked' jika fungsi gtag() tersedia
+  var maxChecks = 5; // Jumlah maksimal pengecekan
+  var currentCheck = 0; // Jumlah pengecekan saat ini
+
+  var interval = setInterval(function() {
+    if (blocked) {
+      document.querySelector('html').innerHTML = htmls; // Jika blocked adalah true, set innerHTML dari html menjadi htmls
+      if (typeof gtag === "function") {
+        gtag('event', 'ads_blocked'); // Kirim event 'ads_blocked' jika fungsi gtag() tersedia
+      }
+      clearInterval(interval); // Menghentikan interval setelah tindakan diambil
+    } else if (currentCheck >= maxChecks) {
+      clearInterval(interval); // Menghentikan interval setelah mencapai jumlah maksimal pengecekan
+    } else {
+      currentCheck++; // Meningkatkan jumlah pengecekan saat ini
     }
-  }
+  }, 1000); // Interval setiap 1 detik (1000 milidetik)
 });
 
 var uniqueDiv = document.createElement('div');
