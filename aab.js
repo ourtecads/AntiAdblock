@@ -20,9 +20,6 @@ window.addEventListener('load', function() {
       .catch(function(error){
         blocked = true; // Jika terjadi error pada fetch, set blocked menjadi true
       });
-    if (navigator.doNotTrack === "1") {
-      blocked = true; // Jika mode pelacakan atau perlindungan privasi aktif, set blocked menjadi true
-    }
     var b = performance.now();
     var a = document.createElement("script");
     a.onload = function(){
